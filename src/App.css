@@ -1,4 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500&display=swap');
+/* Cormorant Garamond - Light 300 */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./fonts/cormorant-garamond-300.woff2') format('woff2');
+}
+
+/* Cormorant Garamond - Regular 400 */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/cormorant-garamond-400.woff2') format('woff2');
+}
+
+/* Montserrat - Light 300 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./fonts/montserrat-300.woff2') format('woff2');
+}
+
+/* Montserrat - Regular 400 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/montserrat-400.woff2') format('woff2');
+}
 
 * {
   margin: 0;
