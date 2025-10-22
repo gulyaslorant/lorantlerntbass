@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import AboutMe from './components/AboutMe';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -36,6 +37,9 @@ function App() {
           <div className="arrow-down"></div>
         </div>
       </div>
+
+      {/* About Me Section */}
+      <AboutMe />
     </div>
   );
 }
