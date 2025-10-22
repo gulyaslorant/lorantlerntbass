@@ -1,62 +1,42 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import './AboutMe.css';
 
 function AboutMe() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2
-      }
-    }
-  };
+  const sectionRef = useRef(null);
 
-  const titleVariants = {
-    hidden: { opacity: 0, y: -30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const blockVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut"
-      }
-    }
-  };
+  // Track scroll progress for parallax
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"]
+  });
+  
+  // AboutMe content floats UP from below as you scroll
+  const contentY = useTransform(scrollYProgress, [0, 1], ["30%", "0%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.3, 1], [0, 0.5, 1]);
+  
+  // Background overlay fades in as section enters viewport
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.8, 1]);
 
   return (
-    <section className="about-section">
-      <div className="about-overlay"></div>
+    <section 
+      ref={sectionRef}
+      className="about-section"
+    >
+      <motion.div 
+        className="about-overlay"
+        style={{ opacity: overlayOpacity }}
+      ></motion.div>
       <motion.div 
         className="about-container"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={containerVariants}
+        style={{ y: contentY, opacity: contentOpacity }}
       >
-        <motion.h2 
-          className="about-title"
-          variants={titleVariants}
-        >
+        <h2 className="about-title">
           Über mich
-        </motion.h2>
+        </h2>
         
         <div className="about-content">
-          <motion.div className="about-block" variants={blockVariants}>
+          <div className="about-block">
             <h3 className="about-subtitle">Mit 40+ den Bass lernen – warum eigentlich nicht?</h3>
             <p>
               Hallo! Ich bin [Dein Name], leidenschaftlicher Neuling am Bass und überzeugtes Beispiel dafür, 
@@ -75,9 +55,9 @@ function AboutMe() {
               Erfolgsmomenten. Denn: Wenn man mit 40+ das erste Mal eine Basslinie richtig durchzieht, 
               fühlt sich das an wie ein kleiner Rockstar-Moment!
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div className="about-block" variants={blockVariants}>
+          <div className="about-block">
             <h3 className="about-subtitle">Musik und ADHS – eine besondere Verbindung</h3>
             <p>
               Ein wichtiger Teil meiner Geschichte ist mein Umgang mit ADHS.
@@ -95,9 +75,9 @@ function AboutMe() {
               Musik ist für mich mehr als ein Hobby. Sie ist Therapie, Ausdruck, Struktur und Freiheit zugleich. 
               Wenn ich damit andere motiviere, selbst zu einem Instrument zu greifen, hat sich das alles schon gelohnt.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div className="about-block" variants={blockVariants}>
+          <div className="about-block">
             <h3 className="about-subtitle">Was dich auf meiner Webseite erwartet</h3>
             <p>
               Auf dieser Webseite begleite ich dich auf meiner musikalischen Reise und möchte dir Mut machen, 
@@ -114,9 +94,9 @@ function AboutMe() {
               Ich möchte verstehen – und zeigen –, was das Bassspielen im Erwachsenenalter so faszinierend macht. 
               Und natürlich: dass Musik einfach Freude bringt, egal, wie alt man ist oder wo man gerade steht.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div className="about-block" variants={blockVariants}>
+          <div className="about-block">
             <h3 className="about-subtitle">Warum ich das alles mache</h3>
             <p>
               Ich bin kein Profi, kein Virtuose – und genau das ist der Punkt.
@@ -137,7 +117,7 @@ function AboutMe() {
               Denn am Ende zählt nur eins:<br />
               <strong>Musik kennt kein Alter – nur Begeisterung.</strong>
             </p>
-          </motion.div>
+          </div>
         </div>
       </motion.div>
     </section>

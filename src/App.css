@@ -40,10 +40,15 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .app {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  background: #0a0a0a;
 }
 
 /* Hero Section */
@@ -65,11 +70,11 @@
 
 /* Hero Image */
 .hero-image {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   z-index: 1;
 }
 
