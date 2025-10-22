@@ -15,8 +15,8 @@ function AboutMe() {
   const contentY = useTransform(scrollYProgress, [0, 1], ["30%", "0%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.3, 1], [0, 0.5, 1]);
   
-  // Background overlay fades in as section enters viewport
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.8, 1]);
+  // Background overlay fades in to cover the background image
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [0, 0.95, 1]);
 
   return (
     <section 
