@@ -36,20 +36,34 @@ function Fretboard() {
       {/* Fretboard */}
       <div className="fretboard-container">
         <div className="fretboard">
-          {/* Nut (left edge) */}
-          <div className="nut"></div>
-
-          {/* String labels */}
-          <div className="string-labels">
-            {strings.map((note, index) => (
-              <div key={index} className="string-label">
-                {note}
-              </div>
-            ))}
+          {/* Fret numbers row */}
+          <div className="fret-numbers-row">
+            <div className="fret-numbers-spacer"></div>
+            <div className="fret-numbers-container">
+              {Array.from({ length: fretCount }).map((_, fretIndex) => (
+                <div key={fretIndex} className="fret-number-cell">
+                  {fretIndex + 1}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Frets and strings */}
-          <div className="frets-container">
+          {/* Main fretboard row */}
+          <div className="fretboard-main">
+            {/* Nut (left edge) */}
+            <div className="nut"></div>
+
+            {/* String labels */}
+            <div className="string-labels">
+              {strings.map((note, index) => (
+                <div key={index} className="string-label">
+                  {note}
+                </div>
+              ))}
+            </div>
+
+            {/* Frets and strings */}
+            <div className="frets-container">
             {/* Continuous strings layer */}
             <div className="strings-layer">
               {strings.map((_, stringIndex) => (
@@ -65,8 +79,6 @@ function Fretboard() {
             {/* Fret wires and markers */}
             {Array.from({ length: fretCount }).map((_, fretIndex) => (
               <div key={fretIndex} className="fret-section">
-                {/* Fret number */}
-                <div className="fret-number">{fretIndex + 1}</div>
 
                 {/* Single dot marker */}
                 {singleDotFrets.includes(fretIndex + 1) && (
@@ -75,7 +87,9 @@ function Fretboard() {
                       className="marker-dot"
                       style={{
                         position: 'absolute',
-                        top: '50%',
+                        // 4-string: between A & D 
+                        // 5-string: on A string centerline
+                        top: stringCount === 4 ? '50%' : '48.5%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)'
                       }}
@@ -86,9 +100,8 @@ function Fretboard() {
                 {/* Double dot marker (12th fret) */}
                 {doubleDotFrets.includes(fretIndex + 1) && (
                   <div className="fret-marker-double">
-                    {/* For 4-string: between G-D and A-E */}
-                    {/* For 5-string: between G-D and E-B */}
-                    {/* Strings are evenly spaced, so we position between them */}
+                    {/* 4-string (G,D,A,E): between G-D and A-E */}
+                    {/* 5-string (G,D,A,E,B): between G-D and E-B */}
                     <div 
                       className="marker-dot" 
                       style={{ 
@@ -102,7 +115,7 @@ function Fretboard() {
                       className="marker-dot"
                       style={{ 
                         position: 'absolute',
-                        top: stringCount === 4 ? '75%' : '80%',
+                        top: stringCount === 4 ? '75%' : '78%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)'
                       }}
@@ -114,6 +127,7 @@ function Fretboard() {
                 <div className="fret-wire"></div>
               </div>
             ))}
+            </div>
           </div>
         </div>
       </div>

@@ -59,12 +59,26 @@
 .fretboard {
   position: relative;
   display: flex;
+  flex-direction: column;
   min-width: 100%;
   width: 100%;
-  background: linear-gradient(to bottom, #3d2817, #2a1810);
   border-radius: 8px;
-  padding: 40px 30px;
+  padding: 20px 30px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.fret-numbers-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.fret-numbers-spacer {
+  width: calc(10px + 20px + 40px + 20px); /* nut + margin + labels + margin */
+  flex-shrink: 0;
+}
+
+.fretboard-main {
+  display: flex;
 }
 
 /* Nut (left edge) */
@@ -77,13 +91,26 @@
   flex-shrink: 0;
 }
 
+/* Fret Numbers Container */
+.fret-numbers-container {
+  display: flex;
+  flex: 1;
+}
+
+.fret-number-cell {
+  flex: 1;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
 /* String Labels */
 .string-labels {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin-right: 20px;
-  margin-top: 30px;
   height: 300px;
   flex-shrink: 0;
 }
@@ -109,12 +136,30 @@
   position: relative;
   display: flex;
   height: 300px;
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      #3d2817 0px,
+      #4a3520 3px,
+      #3d2817 6px,
+      #2f1f12 9px,
+      #3d2817 12px
+    ),
+    linear-gradient(to bottom, #3d2817, #2a1810);
+  border-radius: 4px;
 }
 
 /* Continuous Strings Layer */
 .strings-layer {
   position: absolute;
-  top: 30px;
+  top: 0;
   left: 0;
   right: 0;
   height: 300px;
@@ -132,17 +177,29 @@
 
 .string-line {
   width: 100%;
-  background: linear-gradient(to bottom, #c0c0c0, #808080);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  background: 
+    repeating-linear-gradient(
+      90deg,
+      #c9a05f 0px,
+      #c9a05f 0.8px,
+      #2a2a2a 0.8px,
+      #2a2a2a 1.2px,
+      #c9a05f 1.2px,
+      #c9a05f 2px
+    ),
+    linear-gradient(to bottom, #d4a574, #b87333);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   border-radius: 1px;
 }
 
 /* Different string thicknesses */
-.string-0 .string-line { height: 2px; }   /* G string (thinnest) */
-.string-1 .string-line { height: 2.5px; } /* D string */
-.string-2 .string-line { height: 3px; }   /* A string */
-.string-3 .string-line { height: 3.5px; } /* E string */
-.string-4 .string-line { height: 4px; }   /* B string (thickest, 5-string only) */
+.string-0 .string-line { height: 3px; }   /* G string (thinnest) */
+.string-1 .string-line { height: 4px; }   /* D string */
+.string-2 .string-line { height: 5px; }   /* A string */
+.string-3 .string-line { height: 6px; }   /* E string */
+.string-4 .string-line { height: 7px; }   /* B string (thickest, 5-string only) */
 
 /* Fret Sections */
 .fret-section {
@@ -154,19 +211,10 @@
   z-index: 2;
 }
 
-/* Fret Numbers */
-.fret-number {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 5px;
-  text-align: center;
-}
-
 /* Fret Markers (dots) */
 .fret-marker {
   position: absolute;
-  top: 30px;
+  top: 0;
   left: 0;
   right: 0;
   height: 300px;
@@ -176,7 +224,7 @@
 
 .fret-marker-double {
   position: absolute;
-  top: 30px;
+  top: 0;
   left: 0;
   right: 0;
   height: 300px;
@@ -202,7 +250,7 @@
 .fret-wire {
   position: absolute;
   right: 0;
-  top: 25px;
+  top: 0;
   height: 300px;
   width: 3px;
   background: linear-gradient(to right, #a0a0a0, #707070);
