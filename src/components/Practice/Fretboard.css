@@ -1,0 +1,253 @@
+/* Fretboard Wrapper */
+.fretboard-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Controls */
+.fretboard-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.control-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+}
+
+.string-selector {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.string-selector:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.string-selector:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.string-selector option {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+/* Fretboard Container */
+.fretboard-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px 0;
+}
+
+.fretboard {
+  position: relative;
+  display: flex;
+  min-width: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, #3d2817, #2a1810);
+  border-radius: 8px;
+  padding: 40px 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Nut (left edge) */
+.nut {
+  width: 10px;
+  background: linear-gradient(to right, #e8e8e8, #c0c0c0);
+  border-radius: 2px;
+  margin-right: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+/* String Labels */
+.string-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-right: 20px;
+  margin-top: 30px;
+  height: 300px;
+  flex-shrink: 0;
+}
+
+.string-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Frets Container */
+.frets-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  height: 300px;
+}
+
+/* Continuous Strings Layer */
+.strings-layer {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  z-index: 3;
+}
+
+.string-continuous {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.string-line {
+  width: 100%;
+  background: linear-gradient(to bottom, #c0c0c0, #808080);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 1px;
+}
+
+/* Different string thicknesses */
+.string-0 .string-line { height: 2px; }   /* G string (thinnest) */
+.string-1 .string-line { height: 2.5px; } /* D string */
+.string-2 .string-line { height: 3px; }   /* A string */
+.string-3 .string-line { height: 3.5px; } /* E string */
+.string-4 .string-line { height: 4px; }   /* B string (thickest, 5-string only) */
+
+/* Fret Sections */
+.fret-section {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+/* Fret Numbers */
+.fret-number {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* Fret Markers (dots) */
+.fret-marker {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 300px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fret-marker-double {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fret-marker-double .marker-dot {
+  position: absolute;
+}
+
+.marker-dot {
+  width: 18px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Fret Wire (vertical lines) */
+.fret-wire {
+  position: absolute;
+  right: 0;
+  top: 25px;
+  height: 300px;
+  width: 3px;
+  background: linear-gradient(to right, #a0a0a0, #707070);
+  border-radius: 1px;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.4);
+  z-index: 4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fretboard {
+    min-width: 900px;
+  }
+
+  .string-labels {
+    margin-right: 10px;
+  }
+
+  .string-label {
+    font-size: 0.9rem;
+    min-width: 35px;
+    padding: 4px 8px;
+  }
+
+  .fret-number {
+    font-size: 0.75rem;
+  }
+
+  .strings {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fretboard-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .control-label {
+    font-size: 1rem;
+  }
+
+  .string-selector {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}

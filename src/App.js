@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import './App.css';
 import AboutMe from './components/AboutMe';
+import Practice from './components/Practice';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -61,6 +62,9 @@ function App() {
 
       {/* About Me Section */}
       <AboutMe />
+
+      {/* Practice Section */}
+      <Practice />
     </div>
   );
 }

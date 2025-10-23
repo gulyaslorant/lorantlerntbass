@@ -1,0 +1,107 @@
+/* Practice Section */
+.practice-section {
+  position: relative;
+  min-height: 100vh;
+  height: 100vh;
+  width: 100%;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  padding: 60px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.practice-container {
+  position: relative;
+  max-width: 95%;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+/* Title */
+.practice-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.5rem, 10vw, 6rem);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-align: center;
+  margin-bottom: 80px;
+  color: #ffffff;
+  text-transform: uppercase;
+  position: relative;
+  text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.practice-title::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  margin: 40px auto 0;
+}
+
+/* Content */
+.practice-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.practice-content p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 300;
+  line-height: 2;
+  color: #c0c0c0;
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .practice-section {
+    padding: 80px 20px;
+  }
+
+  .practice-title {
+    margin-bottom: 50px;
+    letter-spacing: 0.2em;
+  }
+
+  .practice-title::after {
+    width: 100px;
+    margin-top: 30px;
+  }
+
+  .practice-content {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .practice-section {
+    padding: 60px 15px;
+  }
+
+  .practice-title {
+    margin-bottom: 40px;
+    letter-spacing: 0.15em;
+  }
+
+  .practice-title::after {
+    width: 80px;
+    margin-top: 25px;
+  }
+
+  .practice-content {
+    gap: 25px;
+  }
+}
