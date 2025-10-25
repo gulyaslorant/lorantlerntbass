@@ -39,7 +39,7 @@ function AboutMe() {
           <div className="about-block">
             <h3 className="about-subtitle">Mit 40+ den Bass lernen – warum eigentlich nicht?</h3>
             <p>
-              Hallo! Ich bin [Dein Name], leidenschaftlicher Neuling am Bass und überzeugtes Beispiel dafür, 
+              Hallo! Ich bin Lorant, leidenschaftlicher Neuling am Bass und überzeugtes Beispiel dafür, 
               dass es nie zu spät ist, etwas Neues zu beginnen.
             </p>
             <p>

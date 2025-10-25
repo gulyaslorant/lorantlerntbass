@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Fretboard.css';
+import { getAllTuningNames, getTuningByName } from '../../lib';
 
 function Fretboard() {
   const [stringCount, setStringCount] = useState(4);
+  const [selectedTuning, setSelectedTuning] = useState('standard');
+  const [availableTunings, setAvailableTunings] = useState([]);
   const fretCount = 16; // Extended to 16 frets
 
-  // Bass string notes (standard tuning)
-  const fourStringNotes = ['G', 'D', 'A', 'E']; // 4-string bass (high to low)
-  const fiveStringNotes = ['G', 'D', 'A', 'E', 'B']; // 5-string bass (high to low)
-  
-  const strings = stringCount === 4 ? fourStringNotes : fiveStringNotes;
+  // Update available tunings when string count changes
+  useEffect(() => {
+    const tuningNames = getAllTuningNames(stringCount);
+    setAvailableTunings(tuningNames);
+    // Reset to standard or first available tuning
+    if (tuningNames.includes('standard')) {
+      setSelectedTuning('standard');
+    } else if (tuningNames.length > 0) {
+      setSelectedTuning(tuningNames[0]);
+    }
+  }, [stringCount]);
+
+  // Get tuning data from JSON
+  const tuningData = getTuningByName(stringCount, selectedTuning === 'empty' ? 'standard' : selectedTuning);
+  const strings = tuningData ? tuningData.tuning : [];
+  const showNotes = selectedTuning !== 'empty';
 
   // Generate fret markers (single dots at frets 3, 5, 7, 9, 15; double dots at 12)
   const singleDotFrets = [3, 5, 7, 9, 15];
@@ -17,7 +31,7 @@ function Fretboard() {
 
   return (
     <div className="fretboard-wrapper">
-      {/* String Selector Dropdown */}
+      {/* Controls */}
       <div className="fretboard-controls">
         <label htmlFor="string-selector" className="control-label">
           Bass Type:
@@ -30,6 +44,27 @@ function Fretboard() {
         >
           <option value={4}>4-String Bass</option>
           <option value={5}>5-String Bass</option>
+          <option value={6}>6-String Bass</option>
+        </select>
+
+        <label htmlFor="tuning-selector" className="control-label">
+          Tuning:
+        </label>
+        <select
+          id="tuning-selector"
+          value={selectedTuning}
+          onChange={(e) => setSelectedTuning(e.target.value)}
+          className="string-selector"
+        >
+          <option value="empty">Empty Fretboard</option>
+          {availableTunings.map((tuningName) => {
+            const tuning = getTuningByName(stringCount, tuningName);
+            return (
+              <option key={tuningName} value={tuningName}>
+                {tuning.name}
+              </option>
+            );
+          })}
         </select>
       </div>
 
@@ -55,7 +90,7 @@ function Fretboard() {
 
             {/* String labels */}
             <div className="string-labels">
-              {strings.map((note, index) => (
+              {strings.slice().reverse().map((note, index) => (
                 <div key={index} className="string-label">
                   {note}
                 </div>
@@ -76,50 +111,41 @@ function Fretboard() {
               ))}
             </div>
 
+            {/* Notes layer - positioned above strings */}
+            {showNotes && tuningData && (
+              <div className="notes-layer">
+                {tuningData.fretboard.map((stringData, stringIndex) => (
+                  <div key={stringIndex} className="note-string-row">
+                    {stringData.frets.slice(0, fretCount).map((note, fretIndex) => (
+                      <div key={fretIndex} className="note-position">
+                        <div className="note-circle">
+                          <span className="note-text">{note}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Fret wires and markers */}
             {Array.from({ length: fretCount }).map((_, fretIndex) => (
               <div key={fretIndex} className="fret-section">
 
-                {/* Single dot marker */}
+                {/* Single block marker */}
                 {singleDotFrets.includes(fretIndex + 1) && (
                   <div className="fret-marker">
-                    <div 
-                      className="marker-dot"
-                      style={{
-                        position: 'absolute',
-                        // 4-string: between A & D 
-                        // 5-string: on A string centerline
-                        top: stringCount === 4 ? '50%' : '48.5%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)'
-                      }}
-                    ></div>
+                    <div className="marker-block-single"></div>
                   </div>
                 )}
 
-                {/* Double dot marker (12th fret) */}
+                {/* Double block marker (12th fret) */}
                 {doubleDotFrets.includes(fretIndex + 1) && (
-                  <div className="fret-marker-double">
-                    {/* 4-string (G,D,A,E): between G-D and A-E */}
-                    {/* 5-string (G,D,A,E,B): between G-D and E-B */}
-                    <div 
-                      className="marker-dot" 
-                      style={{ 
-                        position: 'absolute',
-                        top: stringCount === 4 ? '25%' : '20%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)'
-                      }}
-                    ></div>
-                    <div 
-                      className="marker-dot"
-                      style={{ 
-                        position: 'absolute',
-                        top: stringCount === 4 ? '75%' : '78%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)'
-                      }}
-                    ></div>
+                  <div className="fret-marker">
+                    <div className="marker-block-double">
+                      <div className="marker-block"></div>
+                      <div className="marker-block"></div>
+                    </div>
                   </div>
                 )}
 

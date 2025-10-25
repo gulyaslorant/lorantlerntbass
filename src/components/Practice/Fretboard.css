@@ -169,6 +169,52 @@
   z-index: 3;
 }
 
+/* Notes Layer - positioned above strings */
+.notes-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.note-string-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.note-position {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-circle {
+  width: 42px;
+  height: 42px;
+  background: rgba(64, 64, 64, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.note-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.975rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 .string-continuous {
   width: 100%;
   display: flex;
@@ -195,11 +241,12 @@
 }
 
 /* Different string thicknesses */
-.string-0 .string-line { height: 3px; }   /* G string (thinnest) */
-.string-1 .string-line { height: 4px; }   /* D string */
-.string-2 .string-line { height: 5px; }   /* A string */
-.string-3 .string-line { height: 6px; }   /* E string */
-.string-4 .string-line { height: 7px; }   /* B string (thickest, 5-string only) */
+.string-0 .string-line { height: 3px; }   /* C/G string (thinnest) */
+.string-1 .string-line { height: 4px; }   /* G/D string */
+.string-2 .string-line { height: 5px; }   /* D/A string */
+.string-3 .string-line { height: 6px; }   /* A/E string */
+.string-4 .string-line { height: 7px; }   /* E/B string */
+.string-5 .string-line { height: 8px; }   /* B string (thickest, 6-string only) */
 
 /* Fret Sections */
 .fret-section {
@@ -211,39 +258,64 @@
   z-index: 2;
 }
 
-/* Fret Markers (dots) */
+/* Fret Markers (block inlays) */
 .fret-marker {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 300px;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.fret-marker-double {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 300px;
   display: flex;
+  align-items: center;
   justify-content: center;
   z-index: 1;
   pointer-events: none;
 }
 
-.fret-marker-double .marker-dot {
-  position: absolute;
+.marker-block-single {
+  width: 28px;
+  height: calc(90% - 50px);
+  background: 
+    linear-gradient(135deg, 
+      rgba(200, 200, 200, 0.25) 0%,
+      rgba(190, 200, 210, 0.05) 25%,
+      rgba(180, 190, 200, 0.2) 50%,
+      rgba(195, 205, 215, 0.05) 75%,
+      rgba(200, 200, 200, 0.35) 100%
+    );
+  border-radius: 3px;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(200, 200, 200, 0.25);
 }
 
-.marker-dot {
-  width: 18px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+.marker-block-double {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  align-items: center;
+  height: calc(90% - 50px);
+}
+
+.marker-block {
+  width: 28px;
+  flex: 1;
+  background: 
+    linear-gradient(135deg, 
+      rgba(200, 200, 200, 0.25) 0%,
+      rgba(190, 200, 210, 0.05) 25%,
+      rgba(180, 190, 200, 0.2) 50%,
+      rgba(195, 205, 215, 0.05) 75%,
+      rgba(200, 200, 200, 0.35) 100%
+    );
+  border-radius: 3px;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(200, 200, 200, 0.25);
 }
 
 /* Fret Wire (vertical lines) */

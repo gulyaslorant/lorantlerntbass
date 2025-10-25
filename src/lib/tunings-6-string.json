@@ -1,0 +1,39 @@
+{
+  "standard": {
+    "name": "Standard (B-E-A-D-G-C)",
+    "strings": 6,
+    "tuning": ["B", "E", "A", "D", "G", "C"],
+    "fretboard": [
+      {
+        "string": 1,
+        "openNote": "C",
+        "frets": ["C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+      },
+      {
+        "string": 2,
+        "openNote": "G",
+        "frets": ["G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#"]
+      },
+      {
+        "string": 3,
+        "openNote": "D",
+        "frets": ["D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#"]
+      },
+      {
+        "string": 4,
+        "openNote": "A",
+        "frets": ["A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"]
+      },
+      {
+        "string": 5,
+        "openNote": "E",
+        "frets": ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#"]
+      },
+      {
+        "string": 6,
+        "openNote": "B",
+        "frets": ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"]
+      }
+    ]
+  }
+}
