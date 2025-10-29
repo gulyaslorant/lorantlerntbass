@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Fretboard.css';
 import { getAllTuningNames, getTuningByName } from '../../lib';
 
-function Fretboard() {
+function Fretboard({ highlights = [], onStateChange }) {
   const [stringCount, setStringCount] = useState(4);
   const [selectedTuning, setSelectedTuning] = useState('standard');
   const [availableTunings, setAvailableTunings] = useState([]);
@@ -20,6 +20,13 @@ function Fretboard() {
     }
   }, [stringCount]);
 
+  // Notify parent component when state changes
+  useEffect(() => {
+    if (onStateChange) {
+      onStateChange({ stringCount, selectedTuning });
+    }
+  }, [stringCount, selectedTuning, onStateChange]);
+
   // Get tuning data from JSON
   const tuningData = getTuningByName(stringCount, selectedTuning === 'empty' ? 'standard' : selectedTuning);
   const strings = tuningData ? tuningData.tuning : [];
@@ -28,6 +35,31 @@ function Fretboard() {
   // Generate fret markers (single dots at frets 3, 5, 7, 9, 15; double dots at 12)
   const singleDotFrets = [3, 5, 7, 9, 15];
   const doubleDotFrets = [12];
+
+  // Helper function to check if a note should be highlighted
+  const getHighlightStatus = (stringName, fretNumber) => {
+    // Find all highlights for this position
+    const matchingHighlights = highlights.filter(
+      (h) => h.string === stringName && h.fret === fretNumber
+    );
+    
+    if (matchingHighlights.length === 0) {
+      return { isHighlighted: false, isActive: false };
+    }
+    
+    // Check if any of them is active
+    const isActive = matchingHighlights.some(h => h.isActive);
+    
+    // Collect all step numbers for this position
+    const stepNumbers = matchingHighlights.map(h => h.stepNumber).sort((a, b) => a - b);
+    
+    return { 
+      isHighlighted: true, 
+      isActive: isActive, 
+      stepNumbers: stepNumbers,
+      stepNumber: stepNumbers[0] // Keep for backward compatibility
+    };
+  };
 
   return (
     <div className="fretboard-wrapper">
@@ -90,11 +122,22 @@ function Fretboard() {
 
             {/* String labels */}
             <div className="string-labels">
-              {strings.slice().reverse().map((note, index) => (
-                <div key={index} className="string-label">
-                  {note}
-                </div>
-              ))}
+              {strings.slice().reverse().map((note, index) => {
+                const highlightStatus = getHighlightStatus(note, 0);
+                return (
+                  <div 
+                    key={index} 
+                    className={`string-label ${highlightStatus.isHighlighted ? 'highlighted' : ''} ${highlightStatus.isActive ? 'active-highlight' : ''}`}
+                  >
+                    {note}
+                    {highlightStatus.isHighlighted && highlightStatus.stepNumbers && (
+                      <span className="string-step-indicator">
+                        {highlightStatus.stepNumbers.join(',')}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* Frets and strings */}
@@ -116,13 +159,21 @@ function Fretboard() {
               <div className="notes-layer">
                 {tuningData.fretboard.map((stringData, stringIndex) => (
                   <div key={stringIndex} className="note-string-row">
-                    {stringData.frets.slice(0, fretCount).map((note, fretIndex) => (
-                      <div key={fretIndex} className="note-position">
-                        <div className="note-circle">
-                          <span className="note-text">{note}</span>
+                    {stringData.frets.slice(0, fretCount).map((note, fretIndex) => {
+                      const highlightStatus = getHighlightStatus(stringData.openNote, fretIndex + 1);
+                      return (
+                        <div key={fretIndex} className="note-position">
+                          <div className={`note-circle ${highlightStatus.isHighlighted ? 'highlighted' : ''} ${highlightStatus.isActive ? 'active-highlight' : ''}`}>
+                            <span className="note-text">{note}</span>
+                            {highlightStatus.isHighlighted && highlightStatus.stepNumbers && (
+                              <span className="step-indicator">
+                                {highlightStatus.stepNumbers.join(',')}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 ))}
               </div>

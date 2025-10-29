@@ -1,0 +1,384 @@
+{
+  "basslines": [
+    {
+      "id": "simple-groove-1",
+      "name": "Simple Groove 1",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "E", "fret": 0 },
+        { "string": "E", "fret": 3 },
+        { "string": "A", "fret": 0 },
+        { "string": "A", "fret": 2 }
+      ]
+    },
+    {
+      "id": "walking-bass-1",
+      "name": "Walking Bass Pattern",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 3 },
+        { "string": "E", "fret": 5 },
+        { "string": "A", "fret": 3 },
+        { "string": "A", "fret": 5 },
+        { "string": "D", "fret": 3 },
+        { "string": "D", "fret": 5 },
+        { "string": "G", "fret": 3 },
+        { "string": "G", "fret": 5 }
+      ]
+    },
+    {
+      "id": "funk-groove",
+      "name": "Funk Groove",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 7 },
+        { "string": "E", "fret": 7 },
+        { "string": "A", "fret": 5 },
+        { "string": "D", "fret": 5 },
+        { "string": "E", "fret": 7 },
+        { "string": "A", "fret": 7 }
+      ]
+    },
+    {
+      "id": "octave-pattern",
+      "name": "Octave Pattern",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "E", "fret": 3 },
+        { "string": "D", "fret": 5 },
+        { "string": "A", "fret": 3 },
+        { "string": "G", "fret": 5 },
+        { "string": "E", "fret": 5 },
+        { "string": "D", "fret": 7 }
+      ]
+    },
+    {
+      "id": "blues-shuffle",
+      "name": "Blues Shuffle",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "A", "fret": 0 },
+        { "string": "A", "fret": 2 },
+        { "string": "A", "fret": 3 },
+        { "string": "A", "fret": 2 },
+        { "string": "D", "fret": 0 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 3 },
+        { "string": "D", "fret": 2 }
+      ]
+    },
+    {
+      "id": "rock-steady",
+      "name": "Rock Steady",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "E", "fret": 0 },
+        { "string": "E", "fret": 0 },
+        { "string": "E", "fret": 3 },
+        { "string": "E", "fret": 5 },
+        { "string": "A", "fret": 0 },
+        { "string": "A", "fret": 3 }
+      ]
+    },
+    {
+      "id": "5-string-low-groove",
+      "name": "Low B Groove",
+      "tuning": "standard",
+      "stringCount": 5,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "B", "fret": 0 },
+        { "string": "B", "fret": 3 },
+        { "string": "B", "fret": 5 },
+        { "string": "E", "fret": 3 },
+        { "string": "B", "fret": 7 }
+      ]
+    },
+    {
+      "id": "major-scale-g",
+      "name": "G Major Scale (2 Octaves)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "E", "fret": 3 },
+        { "string": "E", "fret": 5 },
+        { "string": "A", "fret": 2 },
+        { "string": "A", "fret": 3 },
+        { "string": "A", "fret": 5 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 4 },
+        { "string": "D", "fret": 5 },
+        { "string": "G", "fret": 2 },
+        { "string": "G", "fret": 4 },
+        { "string": "G", "fret": 5 },
+        { "string": "D", "fret": 5 },
+        { "string": "D", "fret": 4 },
+        { "string": "D", "fret": 2 },
+        { "string": "A", "fret": 5 },
+        { "string": "A", "fret": 3 },
+        { "string": "A", "fret": 2 },
+        { "string": "E", "fret": 5 },
+        { "string": "E", "fret": 3 }
+      ]
+    },
+    {
+      "id": "major-scale-c",
+      "name": "C Major Scale (1 Octave)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "A", "fret": 3 },
+        { "string": "A", "fret": 5 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 3 },
+        { "string": "D", "fret": 5 },
+        { "string": "G", "fret": 2 },
+        { "string": "G", "fret": 4 },
+        { "string": "G", "fret": 5 }
+      ]
+    },
+    {
+      "id": "major-scale-d",
+      "name": "D Major Scale (1 Octave)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "D", "fret": 0 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 4 },
+        { "string": "D", "fret": 5 },
+        { "string": "G", "fret": 2 },
+        { "string": "G", "fret": 4 },
+        { "string": "G", "fret": 5 },
+        { "string": "G", "fret": 7 }
+      ]
+    },
+    {
+      "id": "minor-scale-a",
+      "name": "A Minor Scale (Natural)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "A", "fret": 0 },
+        { "string": "A", "fret": 2 },
+        { "string": "A", "fret": 3 },
+        { "string": "D", "fret": 0 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 3 },
+        { "string": "D", "fret": 5 },
+        { "string": "G", "fret": 2 }
+      ]
+    },
+    {
+      "id": "minor-scale-e",
+      "name": "E Minor Scale (Natural)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "E", "fret": 0 },
+        { "string": "E", "fret": 2 },
+        { "string": "E", "fret": 3 },
+        { "string": "A", "fret": 0 },
+        { "string": "A", "fret": 2 },
+        { "string": "A", "fret": 3 },
+        { "string": "A", "fret": 5 },
+        { "string": "D", "fret": 2 }
+      ]
+    },
+    {
+      "id": "minor-scale-d",
+      "name": "D Minor Scale (Natural)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "beginner",
+      "sequence": [
+        { "string": "D", "fret": 0 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 3 },
+        { "string": "D", "fret": 5 },
+        { "string": "G", "fret": 2 },
+        { "string": "G", "fret": 3 },
+        { "string": "G", "fret": 5 },
+        { "string": "G", "fret": 7 }
+      ]
+    },
+    {
+      "id": "major-pentatonic-a",
+      "name": "A Major Pentatonic",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "A", "fret": 0 },
+        { "string": "A", "fret": 2 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 4 },
+        { "string": "G", "fret": 2 },
+        { "string": "G", "fret": 4 },
+        { "string": "D", "fret": 4 },
+        { "string": "D", "fret": 2 },
+        { "string": "A", "fret": 2 },
+        { "string": "A", "fret": 0 }
+      ]
+    },
+    {
+      "id": "minor-pentatonic-e",
+      "name": "E Minor Pentatonic",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 0 },
+        { "string": "E", "fret": 3 },
+        { "string": "A", "fret": 0 },
+        { "string": "A", "fret": 2 },
+        { "string": "D", "fret": 0 },
+        { "string": "D", "fret": 2 },
+        { "string": "G", "fret": 0 },
+        { "string": "G", "fret": 2 },
+        { "string": "D", "fret": 2 },
+        { "string": "D", "fret": 0 },
+        { "string": "A", "fret": 2 },
+        { "string": "A", "fret": 0 },
+        { "string": "E", "fret": 3 },
+        { "string": "E", "fret": 0 }
+      ]
+    },
+    {
+      "id": "major-scale-c-position-2",
+      "name": "C Major Scale (Position 2 - 5th Fret)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "A", "fret": 3 },
+        { "string": "A", "fret": 5 },
+        { "string": "A", "fret": 7 },
+        { "string": "D", "fret": 5 },
+        { "string": "D", "fret": 7 },
+        { "string": "D", "fret": 8 },
+        { "string": "G", "fret": 5 },
+        { "string": "G", "fret": 7 }
+      ]
+    },
+    {
+      "id": "major-scale-c-position-3",
+      "name": "C Major Scale (Position 3 - 8th Fret)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 8 },
+        { "string": "E", "fret": 10 },
+        { "string": "A", "fret": 7 },
+        { "string": "A", "fret": 8 },
+        { "string": "A", "fret": 10 },
+        { "string": "D", "fret": 7 },
+        { "string": "D", "fret": 9 },
+        { "string": "D", "fret": 10 }
+      ]
+    },
+    {
+      "id": "minor-scale-a-position-2",
+      "name": "A Minor Scale (Position 2 - 5th Fret)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 5 },
+        { "string": "E", "fret": 7 },
+        { "string": "E", "fret": 8 },
+        { "string": "A", "fret": 5 },
+        { "string": "A", "fret": 7 },
+        { "string": "A", "fret": 8 },
+        { "string": "D", "fret": 5 },
+        { "string": "D", "fret": 7 }
+      ]
+    },
+    {
+      "id": "minor-scale-a-position-3",
+      "name": "A Minor Scale (Position 3 - 10th Fret)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "A", "fret": 12 },
+        { "string": "A", "fret": 14 },
+        { "string": "A", "fret": 15 },
+        { "string": "D", "fret": 12 },
+        { "string": "D", "fret": 14 },
+        { "string": "D", "fret": 15 },
+        { "string": "G", "fret": 12 },
+        { "string": "G", "fret": 14 }
+      ]
+    },
+    {
+      "id": "major-scale-g-position-2",
+      "name": "G Major Scale (Position 2 - 10th Fret)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 10 },
+        { "string": "E", "fret": 12 },
+        { "string": "A", "fret": 9 },
+        { "string": "A", "fret": 10 },
+        { "string": "A", "fret": 12 },
+        { "string": "D", "fret": 9 },
+        { "string": "D", "fret": 11 },
+        { "string": "D", "fret": 12 }
+      ]
+    },
+    {
+      "id": "minor-scale-e-position-2",
+      "name": "E Minor Scale (Position 2 - 7th Fret)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 7 },
+        { "string": "E", "fret": 9 },
+        { "string": "E", "fret": 10 },
+        { "string": "A", "fret": 7 },
+        { "string": "A", "fret": 9 },
+        { "string": "A", "fret": 10 },
+        { "string": "D", "fret": 7 },
+        { "string": "D", "fret": 9 }
+      ]
+    },
+    {
+      "id": "minor-scale-e-position-3",
+      "name": "E Minor Scale (Position 3 - 12th Fret)",
+      "tuning": "standard",
+      "stringCount": 4,
+      "difficulty": "intermediate",
+      "sequence": [
+        { "string": "E", "fret": 12 },
+        { "string": "E", "fret": 14 },
+        { "string": "E", "fret": 15 },
+        { "string": "A", "fret": 12 },
+        { "string": "A", "fret": 14 },
+        { "string": "A", "fret": 15 },
+        { "string": "D", "fret": 12 },
+        { "string": "D", "fret": 14 }
+      ]
+    }
+  ]
+}

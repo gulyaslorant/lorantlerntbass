@@ -1,10 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import './Practice.css';
 import Fretboard from './Fretboard';
+import BassLinePlayer from './BassLinePlayer';
 
 function Practice() {
   const sectionRef = useRef(null);
+  const [highlights, setHighlights] = useState([]);
+  const [fretboardState, setFretboardState] = useState({ stringCount: 4, selectedTuning: 'standard' });
 
   // Track scroll progress for zoom effect
   const { scrollYProgress } = useScroll({
@@ -31,7 +34,15 @@ function Practice() {
           <p style={{ textAlign: 'center', marginBottom: '40px', fontSize: '1.2rem' }}>
             Interactive Bass Fretboard
           </p>
-          <Fretboard />
+          <Fretboard 
+            highlights={highlights}
+            onStateChange={setFretboardState}
+          />
+          <BassLinePlayer
+            stringCount={fretboardState.stringCount}
+            selectedTuning={fretboardState.selectedTuning}
+            onHighlightChange={setHighlights}
+          />
         </div>
       </motion.div>
     </section>
