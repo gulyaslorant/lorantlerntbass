@@ -9,9 +9,27 @@ function BassLinePlayer({ stringCount, selectedTuning, onHighlightChange }) {
   const [tempo, setTempo] = useState(120); // BPM
 
   // Filter bass lines based on current tuning and string count
-  const availableBassLines = bassLinesData.basslines.filter(
-    (line) => line.stringCount === stringCount && line.tuning === selectedTuning
-  );
+  // Show 4-string bass lines on 5 and 6-string basses if tuning is compatible
+  const availableBassLines = bassLinesData.basslines.filter((line) => {
+    // Exact match - always show
+    if (line.stringCount === stringCount && line.tuning === selectedTuning) {
+      return true;
+    }
+    
+    // Show 4-string bass lines on 5 or 6-string basses with standard tuning
+    // (5-string standard is B-E-A-D-G, 6-string standard is B-E-A-D-G-C)
+    // Both include the standard 4-string E-A-D-G tuning
+    if (
+      line.stringCount === 4 &&
+      line.tuning === 'standard' &&
+      (stringCount === 5 || stringCount === 6) &&
+      selectedTuning === 'standard'
+    ) {
+      return true;
+    }
+    
+    return false;
+  });
 
   // Reset when tuning or string count changes
   useEffect(() => {
