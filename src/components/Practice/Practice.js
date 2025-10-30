@@ -23,6 +23,7 @@ function Practice() {
     <section 
       ref={sectionRef}
       className="practice-section"
+      style={{ position: 'relative' }}
     >
       <motion.div 
         className="practice-container"

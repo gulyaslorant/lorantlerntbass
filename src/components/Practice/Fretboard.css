@@ -449,6 +449,24 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .fretboard-controls {
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .control-label {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .string-selector {
+    width: 100%;
+    max-width: 400px;
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+
   .fretboard {
     min-width: 900px;
   }
@@ -474,16 +492,17 @@
 
 @media (max-width: 480px) {
   .fretboard-controls {
-    flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    margin-bottom: 24px;
   }
 
   .control-label {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .string-selector {
-    font-size: 0.9rem;
-    padding: 8px 16px;
+    max-width: 100%;
+    font-size: 0.95rem;
+    padding: 10px 14px;
   }
 }

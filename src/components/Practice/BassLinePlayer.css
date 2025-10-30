@@ -239,17 +239,46 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .bassline-player {
+    padding: 20px 16px;
+  }
+
+  .bassline-player h3 {
+    font-size: 1.3rem;
+  }
+
+  .bassline-selector label {
+    font-size: 0.95rem;
+  }
+
+  .bassline-select {
+    padding: 14px 12px;
+    font-size: 1rem;
+  }
+
+  .bassline-select option,
+  .bassline-select optgroup {
+    font-size: 0.95rem;
+  }
+
   .playback-controls {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
   }
 
   .control-button {
     width: 100%;
+    padding: 14px 20px;
+    font-size: 1.05rem;
   }
 
   .tempo-control {
     width: 100%;
+  }
+
+  .tempo-control label {
+    font-size: 0.95rem;
   }
 
   .sequence-steps {
@@ -259,5 +288,43 @@
   .sequence-step {
     min-width: 70px;
     padding: 10px 12px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .bassline-player {
+    padding: 16px 12px;
+  }
+
+  .bassline-player h3 {
+    font-size: 1.2rem;
+  }
+
+  .bassline-select {
+    padding: 12px 10px;
+    font-size: 0.95rem;
+  }
+
+  .control-button {
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+
+  .sequence-step {
+    min-width: 60px;
+    padding: 8px 10px;
+  }
+
+  .step-number {
+    font-size: 0.8rem;
+  }
+
+  .step-string {
+    font-size: 1rem;
+  }
+
+  .step-fret {
+    font-size: 0.85rem;
   }
 }
