@@ -9,23 +9,25 @@ function BassLinePlayer({ stringCount, selectedTuning, onHighlightChange }) {
   const [tempo, setTempo] = useState(120); // BPM
 
   // Filter bass lines based on current tuning and string count
-  // Show 4-string bass lines on 5 and 6-string basses if tuning is compatible
+  // Show compatible bass lines from basses with fewer strings
   const availableBassLines = bassLinesData.basslines.filter((line) => {
     // Exact match - always show
     if (line.stringCount === stringCount && line.tuning === selectedTuning) {
       return true;
     }
     
-    // Show 4-string bass lines on 5 or 6-string basses with standard tuning
-    // (5-string standard is B-E-A-D-G, 6-string standard is B-E-A-D-G-C)
-    // Both include the standard 4-string E-A-D-G tuning
-    if (
-      line.stringCount === 4 &&
-      line.tuning === 'standard' &&
-      (stringCount === 5 || stringCount === 6) &&
-      selectedTuning === 'standard'
-    ) {
-      return true;
+    // Standard tuning compatibility:
+    // 4-string (E-A-D-G) works on 5-string (B-E-A-D-G) and 6-string (B-E-A-D-G-C)
+    // 5-string (B-E-A-D-G) works on 6-string (B-E-A-D-G-C)
+    if (line.tuning === 'standard' && selectedTuning === 'standard') {
+      // 4-string patterns work on 5 and 6-string
+      if (line.stringCount === 4 && (stringCount === 5 || stringCount === 6)) {
+        return true;
+      }
+      // 5-string patterns work on 6-string
+      if (line.stringCount === 5 && stringCount === 6) {
+        return true;
+      }
     }
     
     return false;
@@ -122,11 +124,22 @@ function BassLinePlayer({ stringCount, selectedTuning, onHighlightChange }) {
           className="bassline-select"
         >
           <option value="">-- Select a Bass Line --</option>
-          {availableBassLines.map((bassLine) => (
-            <option key={bassLine.id} value={bassLine.id}>
-              {bassLine.name} ({bassLine.difficulty})
-            </option>
-          ))}
+          
+          {/* Group by string count - current string count first, then others */}
+          {[stringCount, ...([4, 5, 6].filter(c => c !== stringCount))].map((count) => {
+            const linesForCount = availableBassLines.filter((bl) => bl.stringCount === count);
+            if (linesForCount.length === 0) return null;
+            
+            return (
+              <optgroup key={count} label={`${count}-String Bass${count === stringCount ? ' (Current)' : ''}`}>
+                {linesForCount.map((bassLine) => (
+                  <option key={bassLine.id} value={bassLine.id}>
+                    {bassLine.name} ({bassLine.difficulty})
+                  </option>
+                ))}
+              </optgroup>
+            );
+          })}
         </select>
       </div>
 
