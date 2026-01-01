@@ -417,33 +417,51 @@ function Rhythm() {
 
             <div className="rhythm-pattern">
               {patternData ? (
-                patternData.pattern.map((note, index) => {
-                  const noteResult = results?.noteResults?.[index];
-                  const statusClass = noteResult
-                    ? noteResult.hit
-                      ? ' hit'
-                      : ' miss'
-                    : '';
-                  return (
-                    <div
-                      key={index}
-                      className={`rhythm-note-chip${statusClass}`}
-                    >
-                      <span className="note-short">{note.short}</span>
-                      <span className="note-label">{note.label}</span>
-                      {noteResult && noteResult.delayMs !== null && (
-                        <span className="note-delay">
-                          {noteResult.delayMs > 0
-                            ? `+${noteResult.delayMs} ms`
-                            : `${noteResult.delayMs} ms`}
-                        </span>
-                      )}
-                      {noteResult && noteResult.delayMs === null && (
-                        <span className="note-delay miss-text">verfehlt</span>
-                      )}
+                (() => {
+                  const barDurationMs = patternData.beatMs * 4;
+                  const rows = [];
+
+                  patternData.pattern.forEach((note, index) => {
+                    const expected = patternData.expectedTimes[index];
+                    const barIndex = expected
+                      ? Math.floor(expected.timeMs / barDurationMs)
+                      : 0;
+                    if (!rows[barIndex]) rows[barIndex] = [];
+                    rows[barIndex].push({ note, index });
+                  });
+
+                  return rows.map((row, barIndex) => (
+                    <div className="rhythm-pattern-row" key={barIndex}>
+                      {row.map(({ note, index }) => {
+                        const noteResult = results?.noteResults?.[index];
+                        const statusClass = noteResult
+                          ? noteResult.hit
+                            ? ' hit'
+                            : ' miss'
+                          : '';
+                        return (
+                          <div
+                            key={index}
+                            className={`rhythm-note-chip${statusClass}`}
+                          >
+                            <span className="note-short">{note.short}</span>
+                            <span className="note-label">{note.label}</span>
+                            {noteResult && noteResult.delayMs !== null && (
+                              <span className="note-delay">
+                                {noteResult.delayMs > 0
+                                  ? `+${noteResult.delayMs} ms`
+                                  : `${noteResult.delayMs} ms`}
+                              </span>
+                            )}
+                            {noteResult && noteResult.delayMs === null && (
+                              <span className="note-delay miss-text">verfehlt</span>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })
+                  ));
+                })()
               ) : (
                 <div className="rhythm-placeholder">
                   Klicke auf „Neues Muster starten“, um ein Rhythmus-Muster zu

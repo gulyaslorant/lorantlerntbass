@@ -28,11 +28,11 @@ function Practice() {
         className="practice-container"
         style={{ scale: contentScale, opacity: contentOpacity }}
       >
-        <h2 className="practice-title">Practice</h2>
+        <h2 className="practice-title">Übungsbrett</h2>
 
         <div className="practice-content">
           <p style={{ textAlign: 'center', marginBottom: '40px', fontSize: '1.2rem' }}>
-            Interactive Bass Fretboard
+            Interaktives Bass-Übungsbrett
           </p>
           <Fretboard
             highlights={highlights}

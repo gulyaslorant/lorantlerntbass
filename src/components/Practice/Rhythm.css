@@ -296,9 +296,15 @@
 
 .rhythm-pattern {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.rhythm-pattern-row {
+  display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 8px;
 }
 
 .rhythm-note-chip {
@@ -401,14 +407,36 @@
     padding: 80px 20px;
   }
 
+  .rhythm-panel {
+    padding: 24px 18px;
+    max-width: 100%;
+  }
+
   .rhythm-title {
     margin-bottom: 50px;
     letter-spacing: 0.2em;
   }
 
-  .rhythm-title::after {
-    width: 100px;
-    margin-top: 30px;
+  .rhythm-header-text {
+    font-size: 0.95rem;
+  }
+
+  .rhythm-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .rhythm-controls .rhythm-button.primary {
+    margin-left: 0;
+    align-self: center;
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .rhythm-tabs {
+    margin-top: 16px;
+    margin-bottom: 14px;
   }
 }
 
@@ -425,5 +453,23 @@
   .rhythm-title::after {
     width: 80px;
     margin-top: 25px;
+  }
+
+  .rhythm-panel {
+    padding: 20px 14px;
+  }
+
+  .rhythm-header-text {
+    font-size: 0.9rem;
+  }
+
+  .tempo-control input[type="range"],
+  .bars-control input[type="range"] {
+    width: 150px;
+  }
+
+  .rhythm-button.tap {
+    font-size: 0.95rem;
+    padding: 14px 16px;
   }
 }

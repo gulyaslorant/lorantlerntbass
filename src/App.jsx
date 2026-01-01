@@ -52,8 +52,8 @@ function App() {
             </svg>
           </a>
           <a href="#about">Über mich</a>
-          <a href="#rhythm">Rhythm</a>
-          <a href="#practice">Practice</a>
+          <a href="#rhythm">Rhythmus</a>
+          <a href="#practice">Übungsbrett</a>
         </motion.nav>
         <div className="hero-image">
           <img src="/bass/bass001.jpg" alt="Bass Guitar" />
