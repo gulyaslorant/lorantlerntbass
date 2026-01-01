@@ -2,7 +2,6 @@
 .practice-section {
   position: relative;
   min-height: 100vh;
-  height: 100vh;
   width: 100%;
   background: #0a0a0a;
   color: #e0e0e0;
@@ -72,7 +71,7 @@
   }
 
   .practice-title {
-    margin-bottom: 50px;
+    margin-bottom: 42px;
     letter-spacing: 0.2em;
   }
 
@@ -82,7 +81,7 @@
   }
 
   .practice-content {
-    gap: 30px;
+    gap: 28px;
   }
 }
 
@@ -92,7 +91,7 @@
   }
 
   .practice-title {
-    margin-bottom: 40px;
+    margin-bottom: 34px;
     letter-spacing: 0.15em;
   }
 
@@ -102,6 +101,6 @@
   }
 
   .practice-content {
-    gap: 25px;
+    gap: 22px;
   }
 }

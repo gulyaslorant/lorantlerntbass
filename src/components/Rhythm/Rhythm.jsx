@@ -24,10 +24,14 @@ function generatePattern(tempoBpm, bars = 1, allowedNotes = NOTE_DEFINITIONS) {
 
   const beatMs = 60000 / tempoBpm;
   let currentTime = 0;
+  let currentBeat = 0;
   const expectedTimes = pattern.map((note) => {
+    const startBeat = currentBeat;
     const start = currentTime;
     currentTime += note.beats * beatMs;
-    return { note, timeMs: start };
+    currentBeat += note.beats;
+    const barIndex = Math.floor(startBeat / beatsPerBar);
+    return { note, timeMs: start, barIndex };
   });
 
   const totalDurationMs = currentTime;
@@ -69,9 +73,13 @@ function evaluateTaps(expectedTimes, taps, toleranceMs = 120) {
         delayMs: Math.round(delay),
       });
     } else {
+      let missDelay = null;
+      if (bestIndex !== -1) {
+        missDelay = Math.round(taps[bestIndex] - expected.timeMs);
+      }
       noteResults.push({
         hit: false,
-        delayMs: null,
+        delayMs: missDelay,
       });
     }
   });
@@ -105,6 +113,7 @@ function Rhythm() {
   const [results, setResults] = useState(null);
   const [patternOffsetMs, setPatternOffsetMs] = useState(0);
   const [showHelp, setShowHelp] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const audioContextRef = useRef(null);
   const metronomeTimerRef = useRef(null);
@@ -334,14 +343,14 @@ function Rhythm() {
                 className={`rhythm-tab${mode === 'easy' ? ' active' : ''}`}
                 onClick={() => setMode('easy')}
               >
-                Einfach
+                Üben
               </button>
               <button
                 type="button"
                 className={`rhythm-tab${mode === 'advanced' ? ' active' : ''}`}
                 onClick={() => setMode('advanced')}
               >
-                Fortgeschritten
+                Testen
               </button>
             </div>
 
@@ -383,23 +392,39 @@ function Rhythm() {
                 </button>
               </div>
             )) || (
-              <div className="rhythm-controls rhythm-controls-easy">
-                <div className="tempo-control">
-                  <span className="tempo-label">Tempo</span>
-                  <input
-                    type="range"
-                    min="60"
-                    max="140"
-                    step="1"
-                    value={tempo}
-                    onChange={(e) => setTempo(Number(e.target.value))}
-                  />
-                  <span className="tempo-value">{tempo} BPM</span>
+              <>
+                <div className="rhythm-controls rhythm-controls-easy">
+                  <div className="tempo-control">
+                    <span className="tempo-label">Tempo</span>
+                    <input
+                      type="range"
+                      min="60"
+                      max="140"
+                      step="1"
+                      value={tempo}
+                      onChange={(e) => setTempo(Number(e.target.value))}
+                    />
+                    <span className="tempo-value">{tempo} BPM</span>
+                  </div>
+
+                  <div className="easy-settings-text">
+                    Muster mit {bars} Takt{bars === 1 ? '' : 'en'} der ausgewählten Note
+                  </div>
+
+                  <div className="bars-control">
+                    <span className="tempo-label">Takte</span>
+                    <input
+                      type="range"
+                      min="1"
+                      max="10"
+                      step="1"
+                      value={bars}
+                      onChange={(e) => setBars(Number(e.target.value))}
+                    />
+                    <span className="tempo-value">{bars}</span>
+                  </div>
                 </div>
 
-                <div className="easy-settings-text">
-                  3 Takte Muster mit der ausgewählten Note
-                </div>
                 <div className="note-select">
                   {NOTE_DEFINITIONS.map((note) => (
                     <button
@@ -416,28 +441,35 @@ function Rhythm() {
                   ))}
                 </div>
 
-                <button
-                  type="button"
-                  className="rhythm-button primary"
-                  onClick={startNewPattern}
-                  disabled={isPlaying}
-                >
-                  {isPlaying ? 'Pattern läuft …' : 'Übung starten'}
-                </button>
-              </div>
+                <div className="rhythm-start-row">
+                  <button
+                    type="button"
+                    className="rhythm-button primary"
+                    onClick={startNewPattern}
+                    disabled={isPlaying}
+                  >
+                    {isPlaying ? 'Pattern läuft …' : 'Übung starten'}
+                  </button>
+                  <label className="rhythm-details-toggle">
+                    <input
+                      type="checkbox"
+                      checked={showDetails}
+                      onChange={(e) => setShowDetails(e.target.checked)}
+                    />
+                    <span>Details</span>
+                  </label>
+                </div>
+              </>
             )}
 
             <div className="rhythm-pattern">
               {patternData ? (
                 (() => {
-                  const barDurationMs = patternData.beatMs * 4;
                   const rows = [];
 
                   patternData.pattern.forEach((note, index) => {
                     const expected = patternData.expectedTimes[index];
-                    const barIndex = expected
-                      ? Math.floor(expected.timeMs / barDurationMs)
-                      : 0;
+                    const barIndex = expected?.barIndex ?? 0;
                     if (!rows[barIndex]) rows[barIndex] = [];
                     rows[barIndex].push({ note, index });
                   });
@@ -458,15 +490,19 @@ function Rhythm() {
                           >
                             <span className="note-short">{note.short}</span>
                             <span className="note-label">{note.label}</span>
-                            {noteResult && noteResult.delayMs !== null && (
+                            {noteResult && noteResult.hit && noteResult.delayMs !== null && (
                               <span className="note-delay">
                                 {noteResult.delayMs > 0
                                   ? `+${noteResult.delayMs} ms`
                                   : `${noteResult.delayMs} ms`}
                               </span>
                             )}
-                            {noteResult && noteResult.delayMs === null && (
-                              <span className="note-delay miss-text">verfehlt</span>
+                            {noteResult && !noteResult.hit && (
+                              <span className="note-delay miss-text">
+                                {showDetails && noteResult.delayMs !== null
+                                  ? `verfehlt (${noteResult.delayMs > 0 ? `+${noteResult.delayMs} ms` : `${noteResult.delayMs} ms`})`
+                                  : 'verfehlt'}
+                              </span>
                             )}
                           </div>
                         );
@@ -476,8 +512,9 @@ function Rhythm() {
                 })()
               ) : (
                 <div className="rhythm-placeholder">
-                  Klicke auf „Neues Muster starten“, um ein Rhythmus-Muster zu
-                  erzeugen.
+                  {mode === 'advanced'
+                    ? 'Klicke auf „Neues Muster starten", um ein Rhythmus-Muster zu testen.'
+                    : 'Klicke auf „Übung starten", um ein Rhythmus-Muster zu üben.'}
                 </div>
               )}
             </div>

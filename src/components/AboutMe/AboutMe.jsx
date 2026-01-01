@@ -10,10 +10,10 @@ function AboutMe() {
     offset: ['start end', 'start start'],
   });
 
-  const contentY = useTransform(scrollYProgress, [0, 1], ['30%', '0%']);
-  // Start the main content fade just a touch earlier and ramp up a bit faster
-  // so it begins right around the moment shown in the screenshot
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.02, 0.18, 1], [0, 0, 0.9, 1]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['20%', '0%']);
+  // Sorge dafür, dass der Inhalt sofort sichtbar ist, wenn zur Sektion gesprungen wird
+  // und nur leicht beim Scrollen nach oben gleitet
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.01, 1], [1, 1, 1]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [0, 0.95, 1]);
 
   const containerVariants = {

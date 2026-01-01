@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import './App.css';
 import AboutMe from './components/AboutMe/AboutMe.jsx';
 import Practice from './components/Practice/Practice.jsx';
-import Rhythm from './components/Practice/Rhythm.jsx';
+import Rhythm from './components/Rhythm';
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
