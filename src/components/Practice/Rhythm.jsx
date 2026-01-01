@@ -189,11 +189,10 @@ function Rhythm() {
     if (mode === 'advanced') {
       data = generatePattern(tempo, bars);
     } else {
-      const fixedTempo = 80;
       const fixedBars = 3;
       const selectedNote =
         NOTE_DEFINITIONS.find((n) => n.id === easyNoteId) || NOTE_DEFINITIONS[2];
-      data = generatePattern(fixedTempo, fixedBars, [selectedNote]);
+      data = generatePattern(tempo, fixedBars, [selectedNote]);
     }
     setPatternData(data);
     setTaps([]);
@@ -385,8 +384,21 @@ function Rhythm() {
               </div>
             )) || (
               <div className="rhythm-controls rhythm-controls-easy">
+                <div className="tempo-control">
+                  <span className="tempo-label">Tempo</span>
+                  <input
+                    type="range"
+                    min="60"
+                    max="140"
+                    step="1"
+                    value={tempo}
+                    onChange={(e) => setTempo(Number(e.target.value))}
+                  />
+                  <span className="tempo-value">{tempo} BPM</span>
+                </div>
+
                 <div className="easy-settings-text">
-                  Tempo: 80 BPM · 3 Takte Muster
+                  3 Takte Muster mit der ausgewählten Note
                 </div>
                 <div className="note-select">
                   {NOTE_DEFINITIONS.map((note) => (
