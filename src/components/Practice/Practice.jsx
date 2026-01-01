@@ -21,6 +21,7 @@ function Practice() {
     <section
       ref={sectionRef}
       className="practice-section"
+      id="practice"
       style={{ position: 'relative' }}
     >
       <motion.div

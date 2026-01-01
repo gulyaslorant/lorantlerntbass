@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import './App.css';
 import AboutMe from './components/AboutMe/AboutMe.jsx';
 import Practice from './components/Practice/Practice.jsx';
+import Rhythm from './components/Practice/Rhythm.jsx';
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
 
   const heroContentY = useTransform(scrollYProgress, [0, 0.8], ['0%', '-150%']);
   const heroContentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  // Keep nav hidden during most of the hero; fade in as we reach About Me
+  // scrollYProgress ~ 1 means the hero is fully out of view, About Me is fully in view
+  const navOpacity = useTransform(scrollYProgress, [0.7, 1], [0, 1]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,7 +33,28 @@ function App() {
       <div
         ref={heroRef}
         className={`hero ${isLoaded ? 'loaded' : ''}`}
+        id="top"
       >
+        <motion.nav
+          className="main-nav"
+          style={{ opacity: navOpacity }}
+        >
+          <a href="#top" className="home-link" aria-label="Home">
+            <svg
+              className="home-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 11.5L12 4l8 7.5V20a1 1 0 0 1-1 1h-4.5a1 1 0 0 1-1-1v-4h-3v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8.5z"
+                fill="currentColor"
+              />
+            </svg>
+          </a>
+          <a href="#about">Über mich</a>
+          <a href="#rhythm">Rhythm</a>
+          <a href="#practice">Practice</a>
+        </motion.nav>
         <div className="hero-image">
           <img src="/bass/bass001.jpg" alt="Bass Guitar" />
           <div className="overlay"></div>
@@ -57,6 +82,7 @@ function App() {
       </div>
 <Analytics/>
       <AboutMe />
+      <Rhythm />
       <Practice />
     </div>
   );

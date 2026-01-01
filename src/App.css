@@ -64,6 +64,42 @@ html {
   transition: opacity 1.5s ease-in-out;
 }
 
+.main-nav {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  z-index: 10;
+  display: flex;
+  gap: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.main-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, border-bottom-color 0.2s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.main-nav .home-link {
+  padding-bottom: 2px;
+}
+
+.home-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.main-nav a:hover {
+  opacity: 1;
+  border-bottom-color: rgba(255, 255, 255, 0.7);
+}
+
 .hero.loaded {
   opacity: 1;
 }

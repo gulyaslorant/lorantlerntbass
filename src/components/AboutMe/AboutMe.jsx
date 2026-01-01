@@ -11,13 +11,40 @@ function AboutMe() {
   });
 
   const contentY = useTransform(scrollYProgress, [0, 1], ['30%', '0%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.3, 1], [0, 0.5, 1]);
+  // Start the main content fade just a touch earlier and ramp up a bit faster
+  // so it begins right around the moment shown in the screenshot
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.02, 0.18, 1], [0, 0, 0.9, 1]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [0, 0.95, 1]);
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.45,
+        ease: 'easeOut',
+        when: 'beforeChildren',
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+  };
+
+  const blockVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
+  };
 
   return (
     <section
       ref={sectionRef}
       className="about-section"
+      id="about"
     >
       <motion.div
         className="about-overlay"
@@ -26,13 +53,20 @@ function AboutMe() {
       <motion.div
         className="about-container"
         style={{ y: contentY, opacity: contentOpacity }}
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
       >
-        <h2 className="about-title">
+        <motion.h2
+          className="about-title"
+          variants={titleVariants}
+        >
           Über mich
-        </h2>
+        </motion.h2>
 
         <div className="about-content">
-          <div className="about-block">
+          <motion.div className="about-block" variants={blockVariants}>
             <h3 className="about-subtitle">Mit 40+ den Bass lernen – warum eigentlich nicht?</h3>
             <p>
               Hallo! Ich bin Lorant, leidenschaftlicher Neuling am Bass und überzeugtes Beispiel dafür, 
@@ -51,9 +85,9 @@ function AboutMe() {
               Erfolgsmomenten. Denn: Wenn man mit 40+ das erste Mal eine Basslinie richtig durchzieht, 
               fühlt sich das an wie ein kleiner Rockstar-Moment!
             </p>
-          </div>
+          </motion.div>
 
-          <div className="about-block">
+          <motion.div className="about-block" variants={blockVariants}>
             <h3 className="about-subtitle">Musik und ADHS – eine besondere Verbindung</h3>
             <p>
               Ein wichtiger Teil meiner Geschichte ist mein Umgang mit ADHS.
@@ -71,9 +105,9 @@ function AboutMe() {
               Musik ist für mich mehr als ein Hobby. Sie ist Therapie, Ausdruck, Struktur und Freiheit zugleich. 
               Wenn ich damit andere motiviere, selbst zu einem Instrument zu greifen, hat sich das alles schon gelohnt.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="about-block">
+          <motion.div className="about-block" variants={blockVariants}>
             <h3 className="about-subtitle">Was dich auf meiner Webseite erwartet</h3>
             <p>
               Auf dieser Webseite begleite ich dich auf meiner musikalischen Reise und möchte dir Mut machen, 
@@ -90,9 +124,9 @@ function AboutMe() {
               Ich möchte verstehen – und zeigen –, was das Bassspielen im Erwachsenenalter so faszinierend macht. 
               Und natürlich: dass Musik einfach Freude bringt, egal, wie alt man ist oder wo man gerade steht.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="about-block">
+          <motion.div className="about-block" variants={blockVariants}>
             <h3 className="about-subtitle">Warum ich das alles mache</h3>
             <p>
               Ich bin kein Profi, kein Virtuose – und genau das ist der Punkt.
@@ -113,7 +147,7 @@ function AboutMe() {
               Denn am Ende zählt nur eins:<br />
               <strong>Musik kennt kein Alter – nur Begeisterung.</strong>
             </p>
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </section>
