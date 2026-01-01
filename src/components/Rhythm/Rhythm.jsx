@@ -3,11 +3,11 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import './Rhythm.css';
 
 const NOTE_DEFINITIONS = [
-  { id: 'whole', label: 'Ganze Note', short: '1', beats: 4 },
-  { id: 'half', label: 'Halbe Note', short: '1/2', beats: 2 },
-  { id: 'quarter', label: 'Viertelnote', short: '1/4', beats: 1 },
-  { id: 'eighth', label: 'Achtelnote', short: '1/8', beats: 0.5 },
-  // 16th notes could be added later with beats: 0.25
+  { id: 'whole', label: 'Ganze Note', short: '1', beats: 4, symbol: '●' },
+  { id: 'half', label: 'Halbe Note', short: '1/2', beats: 2, symbol: '○' },
+  { id: 'quarter', label: 'Viertelnote', short: '1/4', beats: 1, symbol: '♩' },
+  { id: 'eighth', label: 'Achtelnote', short: '1/8', beats: 0.5, symbol: '♪' },
+  { id: 'sixteenth', label: 'Sechzehntelnote', short: '1/16', beats: 0.25, symbol: '♫' },
 ];
 
 function generatePattern(tempoBpm, bars = 1, allowedNotes = NOTE_DEFINITIONS) {
@@ -114,6 +114,7 @@ function Rhythm() {
   const [patternOffsetMs, setPatternOffsetMs] = useState(0);
   const [showHelp, setShowHelp] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [expertMode, setExpertMode] = useState(false);
 
   const audioContextRef = useRef(null);
   const metronomeTimerRef = useRef(null);
@@ -196,9 +197,12 @@ function Rhythm() {
     let data;
 
     if (mode === 'advanced') {
-      data = generatePattern(tempo, bars);
+      const allowedNotes = expertMode
+        ? NOTE_DEFINITIONS
+        : NOTE_DEFINITIONS.filter((n) => n.id !== 'sixteenth');
+      data = generatePattern(tempo, bars, allowedNotes);
     } else {
-      const fixedBars = 3;
+      const fixedBars = bars; // im Üben-Tab: Anzahl Takte aus dem Slider übernehmen
       const selectedNote =
         NOTE_DEFINITIONS.find((n) => n.id === easyNoteId) || NOTE_DEFINITIONS[2];
       data = generatePattern(tempo, fixedBars, [selectedNote]);
@@ -337,6 +341,17 @@ function Rhythm() {
               nur am Anfang der Note, nicht bei jedem Klick.
             </div>
 
+            <div className="rhythm-expert-toggle">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={expertMode}
+                  onChange={(e) => setExpertMode(e.target.checked)}
+                />
+                <span>Expertenmodus (inkl. 1/16‑Noten)</span>
+              </label>
+            </div>
+
             <div className="rhythm-tabs">
               <button
                 type="button"
@@ -426,7 +441,10 @@ function Rhythm() {
                 </div>
 
                 <div className="note-select">
-                  {NOTE_DEFINITIONS.map((note) => (
+                  {(expertMode
+                    ? NOTE_DEFINITIONS
+                    : NOTE_DEFINITIONS.filter((n) => n.id !== 'sixteenth')
+                  ).map((note) => (
                     <button
                       key={note.id}
                       type="button"
@@ -436,7 +454,7 @@ function Rhythm() {
                       onClick={() => setEasyNoteId(note.id)}
                     >
                       <span className="note-short">{note.short}</span>
-                      <span className="note-label">{note.label}</span>
+                      <span className="note-label">{note.symbol}</span>
                     </button>
                   ))}
                 </div>
@@ -489,7 +507,7 @@ function Rhythm() {
                             className={`rhythm-note-chip${statusClass}`}
                           >
                             <span className="note-short">{note.short}</span>
-                            <span className="note-label">{note.label}</span>
+                            <span className="note-label">{note.symbol}</span>
                             {noteResult && noteResult.hit && noteResult.delayMs !== null && (
                               <span className="note-delay">
                                 {noteResult.delayMs > 0
