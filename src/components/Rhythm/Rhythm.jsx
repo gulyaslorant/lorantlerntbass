@@ -110,11 +110,14 @@ function Rhythm() {
   const [taps, setTaps] = useState([]);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [exerciseProgress, setExerciseProgress] = useState(0); // 0..1 nur für Übungsphase
+  const [exerciseBeats, setExerciseBeats] = useState(0);
+  const [exerciseBars, setExerciseBars] = useState(0);
   const [results, setResults] = useState(null);
   const [patternOffsetMs, setPatternOffsetMs] = useState(0);
   const [showHelp, setShowHelp] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [expertMode, setExpertMode] = useState(false);
+  const [isIntroPhase, setIsIntroPhase] = useState(false); // Demo + Einzähler
 
   const audioContextRef = useRef(null);
   const metronomeTimerRef = useRef(null);
@@ -147,6 +150,7 @@ function Rhythm() {
 
     const timeout = setTimeout(() => {
       setIsPlaying(false);
+      setIsIntroPhase(false);
       const evalResults = evaluateTaps(patternData.expectedTimes, taps);
       setResults(evalResults);
 
@@ -195,60 +199,85 @@ function Rhythm() {
 
   const startNewPattern = () => {
     let data;
+    let barsUsed;
 
     if (mode === 'advanced') {
       const allowedNotes = expertMode
         ? NOTE_DEFINITIONS
         : NOTE_DEFINITIONS.filter((n) => n.id !== 'sixteenth');
-      data = generatePattern(tempo, bars, allowedNotes);
+      barsUsed = bars;
+      data = generatePattern(tempo, barsUsed, allowedNotes);
     } else {
       const fixedBars = bars; // im Üben-Tab: Anzahl Takte aus dem Slider übernehmen
+      barsUsed = fixedBars;
       const selectedNote =
         NOTE_DEFINITIONS.find((n) => n.id === easyNoteId) || NOTE_DEFINITIONS[2];
       data = generatePattern(tempo, fixedBars, [selectedNote]);
     }
     setPatternData(data);
+    setExerciseBars(barsUsed || 0);
     setTaps([]);
     setResults(null);
     setElapsedMs(0);
     setExerciseProgress(0);
-    // Ein Takt (4 Viertel) Einzählen vor dem eigentlichen Muster
-    setPatternOffsetMs(data.beatMs * 4);
+    // Je 1 Takt Tempo-Demo und Einzähler (4 Viertel) vor dem eigentlichen Muster
+    const demoBeats = 4;
+    const countInBeats = 4;
+    const warmupDelayMs = 120; // kleiner Puffer, damit der erste Klick sicher hörbar ist
+
+    setPatternOffsetMs(data.beatMs * (demoBeats + countInBeats) + warmupDelayMs);
     setStartTime(performance.now());
     setIsPlaying(true);
+    setIsIntroPhase(true);
+
+    // Overlay nur für die Dauer des Demo-Takts anzeigen
+    setTimeout(() => {
+      setIsIntroPhase(false);
+    }, warmupDelayMs + demoBeats * data.beatMs);
 
     if (metronomeTimerRef.current) {
       clearInterval(metronomeTimerRef.current);
       metronomeTimerRef.current = null;
     }
 
-    // Metronom: exakt 4 Klicks Einzähler + Beats für das eigentliche Muster
-    const countInBeats = 4;
-    const exerciseBeats = data.totalDurationMs / data.beatMs; // sollte eine ganze Zahl sein
-    const totalBeats = countInBeats + exerciseBeats;
+    // Metronom: 1 Takt Tempo-Demo + 1 Takt Einzähler + Beats für das eigentliche Muster
+    const exerciseBeatsLocal = data.totalDurationMs / data.beatMs; // sollte eine ganze Zahl sein
+    setExerciseBeats(exerciseBeatsLocal);
+    const totalBeats = demoBeats + countInBeats + exerciseBeatsLocal;
 
-    beatIndexRef.current = 1;
-    // Erster Klick: betonte 1 des Einzähl-Takts
-    playClick(true);
+    const startMetronome = () => {
+      beatIndexRef.current = 1;
+      // Erster Klick der Tempo-Demo (betonte 1)
+      playClick(true);
 
-    metronomeTimerRef.current = setInterval(() => {
-      beatIndexRef.current += 1;
-      if (beatIndexRef.current > totalBeats) {
-        clearInterval(metronomeTimerRef.current);
-        metronomeTimerRef.current = null;
-        return;
-      }
-      // Fortschritt nur über die eigentlichen Übungs-Beats (ohne Einzähler)
-      const exerciseBeatIndex = Math.min(
-        Math.max(beatIndexRef.current - countInBeats, 0),
-        exerciseBeats
-      );
-      if (exerciseBeats > 0) {
-        setExerciseProgress(exerciseBeatIndex / exerciseBeats);
-      }
-      const isAccent = beatIndexRef.current % 4 === 1; // immer auf der "1" betonen
-      playClick(isAccent);
-    }, data.beatMs);
+      metronomeTimerRef.current = setInterval(() => {
+        beatIndexRef.current += 1;
+        if (beatIndexRef.current > totalBeats) {
+          clearInterval(metronomeTimerRef.current);
+          metronomeTimerRef.current = null;
+          return;
+        }
+
+        const idx = beatIndexRef.current;
+
+        // Fortschritt nur über die eigentlichen Übungs-Beats (ohne Demo + Einzähler)
+        const exerciseBeatIndex = Math.min(
+          Math.max(idx - demoBeats - countInBeats, 0),
+          exerciseBeatsLocal
+        );
+        if (exerciseBeatsLocal > 0) {
+          setExerciseProgress(exerciseBeatIndex / exerciseBeatsLocal);
+        }
+
+        // Akzent immer auf der "1" jedes Taktes (ab Einzähler)
+        const beatsSinceDemo = Math.max(idx - demoBeats, 0);
+        const isAccent = beatsSinceDemo % 4 === 1;
+        playClick(isAccent);
+      }, data.beatMs);
+    };
+
+    // kleiner Warmup-Delay, damit der AudioContext sicher bereit ist
+    setTimeout(startMetronome, warmupDelayMs);
   };
 
   const handleTap = () => {
@@ -267,6 +296,12 @@ function Rhythm() {
 
   const effectiveElapsed = Math.max(0, elapsedMs - patternOffsetMs);
   const currentBeatPosition = exerciseProgress;
+
+  // Live-Auswertung nur für die obere Progress-Bar: basiert auf bisherigen Taps
+  const liveResults =
+    patternData && taps.length > 0
+      ? evaluateTaps(patternData.expectedTimes, taps)
+      : null;
 
   const showExerciseLabel =
     isPlaying &&
@@ -288,6 +323,19 @@ function Rhythm() {
 
         <div className="rhythm-content">
           <div className="rhythm-panel">
+            {isIntroPhase && (
+              <div className="rhythm-demo-overlay">
+                <div className="rhythm-demo-box">
+                  <h3>Tempo‑Vorschau</h3>
+                  <p>
+                    Höre dir zuerst das Tempo an. Danach zählt ein Takt
+                    „1‑2‑3‑4“ ein. Ab dem nächsten Takt beginnt das Muster –
+                    dann tippst du mit.
+                  </p>
+                </div>
+              </div>
+            )}
+
             <button
               type="button"
               className="rhythm-help-toggle"
@@ -537,8 +585,78 @@ function Rhythm() {
               )}
             </div>
 
+            {/* Obere Progress-Bar: feste Zeitleiste für die Übung (0 % = Beginn des Musters, 100 % = letzter Übungstakt) */}
+            <div className="rhythm-progress rhythm-progress-exercise">
+              <div className="progress-bar progress-bar-exercise">
+                {patternData && (
+                  <>
+                    {exerciseBars > 0 && (
+                      <div className="progress-ticks">
+                        {exerciseBars === 1
+                          ? null
+                          : Array.from({ length: exerciseBars - 1 }).map((_, i) => (
+                              <div
+                                key={i}
+                                className="progress-tick"
+                                style={{
+                                  left: `${5 + ((i + 1) / exerciseBars) * 90}%`,
+                                }}
+                              />
+                            ))}
+                      </div>
+                    )}
+                    {liveResults &&
+                      patternData.expectedTimes.map((exp, idx) => {
+                        // Punkt erst anzeigen, wenn die Note zeitlich "dran" war
+                        if (effectiveElapsed < exp.timeMs) {
+                          return null;
+                        }
+
+                        const noteResult = liveResults?.noteResults?.[idx];
+                        if (!noteResult) return null;
+                        const statusClass = noteResult.hit ? ' hit' : ' miss';
+                        return (
+                          <div
+                            key={idx}
+                            className={`progress-note-dot${statusClass}`}
+                            style={{
+                              left: `${
+                                5 + (exp.timeMs / patternData.totalDurationMs) * 90
+                              }%`,
+                            }}
+                          />
+                        );
+                      })}
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Untere Progress-Bar: laufender Fortschritt während der Übung */}
             <div className="rhythm-progress">
               <div className="progress-bar">
+                {exerciseBeats > 0 && (
+                  <div className="progress-ticks">
+                    {Array.from({ length: exerciseBeats + 1 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="progress-tick"
+                        style={{ left: `${(i / exerciseBeats) * 100}%` }}
+                      />
+                    ))}
+                    {showDetails &&
+                      patternData &&
+                      taps.map((t, idx) => (
+                        <div
+                          key={idx}
+                          className="progress-tap-marker"
+                          style={{
+                            left: `${(t / patternData.totalDurationMs) * 100}%`,
+                          }}
+                        />
+                      ))}
+                  </div>
+                )}
                 <div
                   className="progress-fill"
                   style={{ width: `${currentBeatPosition * 100}%` }}
